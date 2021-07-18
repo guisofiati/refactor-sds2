@@ -1,13 +1,10 @@
 import './App.css';
-import Hello from './Hello';
+import Contador from './Contador';
 
 function App() {
   return (
     <div>
-      <Hello message='Hello, World!' number={1} />
-      <Hello message='Olá, Mundo!' number={2} />
-      <Hello message='Ciao, Mundo!' number={3} />
-      <Hello message='Salut, Monde!' number={4} />
+      <Contador />
     </div>
   );
 }
