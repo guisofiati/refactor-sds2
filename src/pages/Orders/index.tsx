@@ -1,21 +1,21 @@
-import './styles.css';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
+import { toast, ToastContainer } from 'react-toastify';
 import StepsHeader from "../../components/StepsHeader";
 import ProductsList from '../../components/ProductsList';
-
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { Product } from '../../types';
-import { fetchProducts } from '../../api';
 import OrderSummary from '../../components/OrderSummary';
 import Footer from '../../components/Footer';
+import { Product } from '../../types';
 import { checkIsSelected } from '../../helpers';
+import { fetchProducts, saveOrder } from '../../api';
+import './styles.css';
 
 function Orders() {
 
     const [products, setProducts] = useState<Product[]>([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-    
+
     const totalPrice = selectedProducts.reduce((sum, item) => {
         return sum + item.price;
     }, 0);
@@ -37,6 +37,21 @@ function Orders() {
         }
     }
 
+    const handleSubmit = () => {
+        const productsIds = selectedProducts.map(({ id }) => ({ id }));
+        const payload = {
+            products: productsIds
+        }
+
+        saveOrder(payload).then((response) => {
+            toast.error(`Pedido enviado com sucesso! Nº ${response.data.id}`);
+            setSelectedProducts([]);
+        })
+            .catch(() => {
+                toast.warning('Erro ao enviar pedido');
+            })
+    }
+
     return (
         <>
             <div className="orders-container">
@@ -49,6 +64,7 @@ function Orders() {
                 <OrderSummary
                     amount={selectedProducts.length}
                     totalPrice={totalPrice}
+                    onSubmit={handleSubmit}
                 />
             </div>
             <Footer />

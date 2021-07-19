@@ -5,3 +5,11 @@ export type Product = {
     description: string;
     imageUri: string;
 }
+
+type ProductId = {
+    id: number;
+}
+
+export type OrderPayload = {
+    products: ProductId[]
+}
