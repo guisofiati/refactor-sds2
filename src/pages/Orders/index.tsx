@@ -3,10 +3,23 @@ import './styles.css';
 import StepsHeader from "../../components/StepsHeader";
 import ProductsList from '../../components/ProductsList';
 
-import './styles.css'
-import ProductCard from '../../components/ProductCard';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { Product } from '../../types';
+import { fetchProducts } from '../../api';
 
 function Orders() {
+
+    const [products, setProducts] = useState<Product[]>([]);
+    
+    console.log(products);
+
+    useEffect(() => {
+        fetchProducts()
+        .then(response => setProducts(response.data))
+        .catch(error => console.log(error))
+    }, []);
+
     return (
         <>
             <StepsHeader />
