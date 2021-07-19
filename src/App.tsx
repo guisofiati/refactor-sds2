@@ -1,10 +1,12 @@
 import './App.css';
-import Contador from './Contador';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
 
 function App() {
   return (
     <div>
-      <Contador />
+      <Navbar />
+      <Home />
     </div>
   );
 }
