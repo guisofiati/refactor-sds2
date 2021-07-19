@@ -7,21 +7,27 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Product } from '../../types';
 import { fetchProducts } from '../../api';
+import OrderSummary from '../../components/OrderSummary';
+import Footer from '../../components/Footer';
 
 function Orders() {
 
     const [products, setProducts] = useState<Product[]>([]);
-    
+
     useEffect(() => {
         fetchProducts()
-        .then(response => setProducts(response.data))
-        .catch(error => console.log(error))
+            .then(response => setProducts(response.data))
+            .catch(error => console.log(error))
     }, []);
 
     return (
         <>
-            <StepsHeader />
-            <ProductsList products={products}/>          
+            <div className="orders-container">
+                <StepsHeader />
+                <ProductsList products={products} />
+                <OrderSummary />
+            </div>
+            <Footer />
         </>
     );
 }
