@@ -15,6 +15,10 @@ function Orders() {
 
     const [products, setProducts] = useState<Product[]>([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+    
+    const totalPrice = selectedProducts.reduce((sum, item) => {
+        return sum + item.price;
+    }, 0);
 
     useEffect(() => {
         fetchProducts()
@@ -42,7 +46,10 @@ function Orders() {
                     onSelectedProduct={handleSelectProduct}
                     selectedProducts={selectedProducts}
                 />
-                <OrderSummary />
+                <OrderSummary
+                    amount={selectedProducts.length}
+                    totalPrice={totalPrice}
+                />
             </div>
             <Footer />
         </>
