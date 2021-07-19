@@ -9,10 +9,12 @@ import { Product } from '../../types';
 import { fetchProducts } from '../../api';
 import OrderSummary from '../../components/OrderSummary';
 import Footer from '../../components/Footer';
+import { checkIsSelected } from '../../helpers';
 
 function Orders() {
 
     const [products, setProducts] = useState<Product[]>([]);
+    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         fetchProducts()
@@ -20,11 +22,26 @@ function Orders() {
             .catch(error => console.log(error))
     }, []);
 
+    const handleSelectProduct = (product: Product) => {
+        const isAlreadySelected = checkIsSelected(selectedProducts, product);
+
+        if (isAlreadySelected) {
+            const selected = selectedProducts.filter(item => item.id !== product.id);
+            setSelectedProducts(selected);
+        } else {
+            setSelectedProducts(previous => [...previous, product]);
+        }
+    }
+
     return (
         <>
             <div className="orders-container">
                 <StepsHeader />
-                <ProductsList products={products} />
+                <ProductsList
+                    products={products}
+                    onSelectedProduct={handleSelectProduct}
+                    selectedProducts={selectedProducts}
+                />
                 <OrderSummary />
             </div>
             <Footer />
