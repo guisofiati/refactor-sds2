@@ -12,8 +12,6 @@ function Orders() {
 
     const [products, setProducts] = useState<Product[]>([]);
     
-    console.log(products);
-
     useEffect(() => {
         fetchProducts()
         .then(response => setProducts(response.data))
@@ -23,7 +21,7 @@ function Orders() {
     return (
         <>
             <StepsHeader />
-            <ProductsList />          
+            <ProductsList products={products}/>          
         </>
     );
 }
